@@ -4,7 +4,7 @@ import CharacterCard from "./components/character-card";
 import { useCharacters } from "./hooks/useCharacters";
 
 const CharacterSearch = () => {
-  const [searchName, setSearchName] = useState(undefined);
+  const [searchName, setSearchName] = useState("");
   const debouncedSearchName = useDebounce(searchName, 300);
   const { isLoading, error, characters } = useCharacters(debouncedSearchName);
 
