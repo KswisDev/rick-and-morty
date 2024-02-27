@@ -2,7 +2,14 @@ import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "../App";
-import { Character, CharacterClient } from "../CharacterClient";
+import { Character } from "../types";
+import { useCharacters } from "../hooks/useCharacters";
+
+jest.mock("../hooks/useCharacters");
+
+const useCharactersMock = useCharacters as jest.MockedFunction<
+  typeof useCharacters
+>;
 
 describe("App", () => {
   it(`User can search and view character`, async () => {
@@ -14,28 +21,25 @@ describe("App", () => {
         species: "human",
         image: "url/to/image/Rick",
       },
-      {
-        id: 2,
-        name: "Morty",
-        status: "alive",
-        species: "human",
-        image: "url/to/image/Morty",
-      },
     ];
 
-    const characterClient: CharacterClient = {
-      get: async (searchStr) => {
-        return {
-          results: characters.filter((c) => c.name.includes(searchStr)),
-        };
-      },
-    };
+    useCharactersMock.mockReturnValue({
+      isLoading: false,
+      error: false,
+      characters: null,
+    });
 
-    render(<App characterClient={characterClient} />);
+    render(<App />);
 
     expect(screen.queryByText("Rick")).not.toBeInTheDocument();
     expect(screen.queryByText("alive")).not.toBeInTheDocument();
     expect(screen.queryByText("human")).not.toBeInTheDocument();
+
+    useCharactersMock.mockReturnValue({
+      isLoading: false,
+      error: false,
+      characters,
+    });
 
     await userEvent.type(screen.getByRole("textbox"), "Rick");
 

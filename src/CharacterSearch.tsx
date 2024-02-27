@@ -1,26 +1,12 @@
-import React, { useCallback, useEffect, useState } from "react";
-import ClipLoader from "react-spinners/ClipLoader";
-import { useQuery } from "@tanstack/react-query";
+import React, { useState } from "react";
+import { useDebounce } from "@uidotdev/usehooks";
 import CharacterCard from "./components/character-card";
-import { Character } from "CharacterClient";
-import { searchCharacters } from "./operations/queries";
+import { useCharacters } from "./hooks/useCharacters";
 
 const CharacterSearch = () => {
-  const [characters, setCharacters] = useState<Character[]>([]);
   const [searchName, setSearchName] = useState(undefined);
-
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["characterSearch", searchName],
-    queryFn: () => searchCharacters(searchName),
-  });
-
-  const getCharacters = useCallback(async () => {
-    setCharacters(data?.results);
-  }, [searchName, data]);
-
-  useEffect(() => {
-    getCharacters();
-  }, [getCharacters, searchName]);
+  const debouncedSearchName = useDebounce(searchName, 300);
+  const { isLoading, error, characters } = useCharacters(debouncedSearchName);
 
   const handleInput = (e) => {
     setSearchName(e.target.value);
@@ -40,23 +26,28 @@ const CharacterSearch = () => {
           onChange={handleInput}
         />
       </div>
-      {error && <div>An error has occured</div>}
-      {isLoading ? (
-        <div className="flex justify-center">
-          {" "}
-          <ClipLoader />{" "}
-        </div>
-      ) : (
-        <div className="flex flex-wrap justify-center">
-          {characters ? (
-            characters.map((c) => {
-              return <CharacterCard character={c} key={c.id} />;
-            })
-          ) : (
-            <div> No Characters found </div>
-          )}
-        </div>
-      )}
+
+      <div className="flex flex-wrap justify-center">
+        {error && <div>An error has occured</div>}
+        {isLoading ? (
+          <>
+            <CharacterCard />
+            <CharacterCard />
+            <CharacterCard />
+            <CharacterCard />
+          </>
+        ) : (
+          <>
+            {characters ? (
+              characters.map((c) => {
+                return <CharacterCard character={c} key={c.id} />;
+              })
+            ) : (
+              <div> No Characters found </div>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 };

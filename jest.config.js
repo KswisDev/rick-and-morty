@@ -6,4 +6,5 @@ module.exports = {
     "^.+\\.(js|ts|tsx)$": "@swc/jest",
   },
   setupFilesAfterEnv: ["<rootDir>setupTestFramework.js"],
+  transformIgnorePatterns: ["<rootDir>/node_modules/(?!(@uidotdev)/)"],
 };
