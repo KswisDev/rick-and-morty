@@ -12,6 +12,7 @@ const CharacterCard = ({ character }: Props) => {
       <img src={character.image} alt={`picture of ${character.image}`} />
 
       {/* KJS could loop through properties instead here */}
+      {/** todo: add debounce, add css grid/clever animation? */}
       <div>
         <span className="font-bold">Status:</span> {character.status}
       </div>
