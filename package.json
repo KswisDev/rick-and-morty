@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "parcel src/index.html --port=5001",
+    "start": "parcel src/index.html --port=5001 --open",
     "compile": "tsc",
     "test": "jest"
   },
