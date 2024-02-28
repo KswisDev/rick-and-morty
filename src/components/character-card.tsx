@@ -8,7 +8,7 @@ type Props = {
 
 const CharacterCard = ({ character }: Props) => {
   return (
-    <div className="mr-4 mb-4 border-2 border-gray-600 text-center">
+    <div className="mr-6 mb-4 border-2 border-gray-600 text-center">
       <h2>{character?.name || <Skeleton />}</h2>
       {character?.image ? (
         <img
@@ -22,9 +22,6 @@ const CharacterCard = ({ character }: Props) => {
           <Skeleton height="100%" />
         </div>
       )}
-
-      {/* KJS could loop through properties instead here */}
-      {/** todo: grid?, add modal for more info?, hook tests, fix module exports */}
       <div>
         <span className="font-bold">Status:</span>{" "}
         {character?.status || <Skeleton width="50%" />}

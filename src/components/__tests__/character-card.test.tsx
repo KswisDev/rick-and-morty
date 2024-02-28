@@ -18,4 +18,8 @@ describe("CharacterCard", () => {
       )
     ).toMatchSnapshot();
   });
+
+  it("renders loading as expected", async () => {
+    expect(render(<CharacterCard />)).toMatchSnapshot();
+  });
 });
