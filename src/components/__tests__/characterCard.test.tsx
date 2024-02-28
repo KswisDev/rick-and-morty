@@ -1,6 +1,6 @@
 import { render } from "@testing-library/react";
 import React from "react";
-import CharacterCard from "../character-card";
+import CharacterCard from "../characterCard";
 
 describe("CharacterCard", () => {
   it("renders as expected", async () => {

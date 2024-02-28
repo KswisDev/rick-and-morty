@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDebounce } from "@uidotdev/usehooks";
-import CharacterCard from "./components/character-card";
+import CharacterCard from "./components/characterCard";
 import { useCharacters } from "./hooks/useCharacters";
 
 const CharacterSearch = () => {
